@@ -68,6 +68,24 @@ End Sub
 
 ۳. برای اطمینان بعد از نصب روی دیوایس، لاگ را با فیلتر `PushSDK` ببین — باید ثبت توکن را نشان بدهد. اگر ثبت توکن دیده نشد، برگرد به قدم ۱ و ۲.
 
-## ۵. بیلد
+## ۵. سرویس فایربیس اختصاصی (اختیاری — فقط اگر کتابخانه پوش دیگری هم داری)
+
+FCM در هر اپ فقط به **یک** سرویس پیام تحویل می‌دهد. اگر کتابخانه دیگری هم سرویس فایربیس خودش را دارد، باید فقط یکی از سرویس‌ها پیام بگیرد و پیام‌ها بین کتابخانه‌ها تقسیم شوند — وگرنه پیام‌ها به دست یکی از آن‌ها نمی‌رسد.
+
+اصل کار (مثل نیتیو): سرویس داخلی SDK (`ir.pushpanel.sdk.PushMessagingService`) با `tools:node="remove"` از مانیفست حذف می‌شود و سرویس واحد، همه پیام‌ها را با این دو متد به SDK پاس می‌دهد — پیام‌هایی که مال پنل نیستند نادیده گرفته می‌شوند (مارکر `pushpanel=pushpanel`):
+
+```basic
+' معادل نیتیو:
+' PushPanel.forwardMessage(context, remoteMessage)
+' PushPanel.forwardToken(context, token)
+Dim sdk As JavaObject
+sdk.InitializeStatic("ir.pushpanel.sdk.PushPanel")
+sdk.RunMethod("forwardMessage", Array(GetContext, msg))
+sdk.RunMethod("forwardToken", Array(GetContext, token))
+```
+
+نکته: `init` (بخش ۳) همچنان لازم است؛ فوروارد قبل از init نادیده گرفته می‌شود. اگر کتابخانه دیگری نداری، این بخش را رد کن — سرویس داخلی SDK به‌صورت پیش‌فرض کار می‌کند.
+
+## ۶. بیلد
 
 `Project > Compile & Run` — اگر خطای Dex/Multidex گرفتی، Multidex را فعال کن و نسخه وابستگی‌ها را با هم هماهنگ نگه دار.
