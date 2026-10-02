@@ -2,17 +2,17 @@
 
 پروژه نمونه B4A برای اتصال کتابخانه پوش PushPanel.
 
-کتابخانه: `ir.push-panel:push-sdk:1.7.2` از MavenCentral
+کتابخانه: `ir.push-panel:push-sdk:1.8.3` از MavenCentral
 
 > این راهنما بر اساس API نیتیو SDK نوشته شده و در این محیط بیلد نشده است.
 
 ## ۱. اضافه کردن کتابخانه
 
-1. فایل `push-sdk-1.7.2.aar` را از MavenCentral دانلود کن.
+1. فایل `push-sdk-1.8.3.aar` را از MavenCentral دانلود کن.
 2. در B4A جدید، aar را در پوشه libs اضافه (AdditionalLibs) بگذار و در پروژه:
 
 ```basic
-#AdditionalJar: push-sdk-1.7.2.aar
+#AdditionalJar: push-sdk-1.8.3.aar
 ```
 
 اگر نسخه B4A تو فقط `jar` قبول می‌کند، `classes.jar` داخل aar را بیرون بکش و به جایش معرفی کن و پوشه `res` آن را با `#AdditionalRes` اضافه کن.
@@ -33,7 +33,7 @@ AddPermission(android.permission.POST_NOTIFICATIONS)
 ```basic
 Sub Service_Create
     Dim sdk As JavaObject
-    sdk.InitializeStatic("ir.pushpanel.sdk.PushSdk")
+    sdk.InitializeStatic("ir.pushpanel.sdk.PushPanel")
     sdk.RunMethod("init", Array(GetContext))
 End Sub
 ```
@@ -56,7 +56,7 @@ End Sub
 
 `GetContext` همان `Context` اکتیویتی است که `init` می‌خواهد.
 
-> در نسخه 1.7.2 به `handleIntent` و کد جداگانه برای اکتیویتی اسپلش نیازی نیست؛ فقط `init` کافی است.
+> در نسخه 1.8.3 نقطه ورود به `PushPanel` تغییر نام داده (قبلاً `PushSdk`) و به `handleIntent` و کد جداگانه برای اکتیویتی اسپلش نیازی نیست؛ فقط `init` کافی است.
 
 ## ۴. فایربیس (برای دریافت واقعی پوش — اجباری)
 
